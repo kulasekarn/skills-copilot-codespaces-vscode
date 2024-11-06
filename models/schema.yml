@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: agg_customers
+    description: One record per customer
+    columns:
+      - name: customer_id
+        description: Primary key column
+        tests:
+          - unique
+          - not_null
+      - name: first_order_date
+        description: Is null when a customer has not placed an order yet
+
+  - name: stg_customers
+    description: The model cleans up the customer data imported from src_customers table
+    columns:
+      - name: customer_id
+        description: Primary key column
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: The model cleans up the order data imported from src_orders table
+    columns:
+      - name: order_id
+        description: Primary key column
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: Order status, helps to keep track of an order progression through different stages
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+      - name: customer_id
+        description: Foreign key to stg_customers table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
