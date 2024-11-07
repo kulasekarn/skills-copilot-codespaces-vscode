@@ -8,12 +8,6 @@ with customers as (
 orders as (
 
     select *
-    from {{ ref('stg_orders') }}
-),
-
-payments as (
-
-    select *
     from {{ ref('fct_orders') }}
 ),
 
@@ -25,11 +19,9 @@ customer_orders as (
         min(o.order_date) as first_order_date,
         max(o.order_date) as most_recent_order_date,
         count(o.order_id) as number_of_orders,
-		sum(p.payment_amount) as lifetime_value
+		sum(CASE WHEN o.payment_status = 'success' THEN o.payment_amount ELSE 0 END) as lifetime_value
 
     from orders o
-    inner join payments p
-    ON o.order_id = p.order_id
     group by o.customer_id
 
 ),
