@@ -6,8 +6,42 @@ sources:
     schema: dbo
     tables:
       - name: src_customers
-        description: source for customer data from the jaffle_shop application
+        description: source for customer data from the jaffle_shop crm application
+        columns:
+          - name: id
+            description: Primary key of the src_customers table
+            tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: First name of the customer
+          - name: last_name
+            description: Last name of the customer
+      
       - name: src_orders
-        description: source for order data from the jaffle_shop application
+        description: source for order data from the jaffle_shop order management application
+        columns:
+          - name: id
+            description: Primary key of the orders table
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            description: Foreign key to the src_customers table
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('src_customers')
+                  field: id
+          - name: order_date
+            description: Date when the order was placed
+            tests:
+              - not_null
+          - name: status
+            description: Order status, helps to keep track of an order progression through different stages
+            tests:
+              - accepted_values:
+                  values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+      
       - name: src_payments
         description: source for payment data from the jaffle_shop application
