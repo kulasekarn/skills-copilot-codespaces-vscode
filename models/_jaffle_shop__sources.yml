@@ -6,5 +6,8 @@ sources:
     schema: dbo
     tables:
       - name: src_customers
+        description: source for customer data from the jaffle_shop application
       - name: src_orders
+        description: source for order data from the jaffle_shop application
       - name: src_payments
+        description: source for payment data from the jaffle_shop application
