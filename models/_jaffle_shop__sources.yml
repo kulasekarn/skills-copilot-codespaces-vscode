@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: dbt_training_db
+    schema: dbo
+    tables:
+      - name: src_customers
+      - name: src_orders
+      - name: src_payments

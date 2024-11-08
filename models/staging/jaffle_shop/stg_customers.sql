@@ -3,4 +3,4 @@ select
     FIRST_NAME as first_name,
     LAST_NAME as last_name
 
-from dbo.src_customers
+from {{ source('jaffle_shop', 'src_customers') }}

@@ -4,4 +4,4 @@
         ORDER_DATE as order_date,
         STATUS as order_status
 
-    from dbo.src_orders
+    from {{ source('jaffle_shop', 'src_orders') }}
