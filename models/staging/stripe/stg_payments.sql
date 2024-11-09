@@ -6,4 +6,4 @@ Select
     , STATUS AS payment_status
     , AMOUNT/100 AS payment_amount
 
-from {{ source('jaffle_shop', 'src_payments') }}
+from {{ source('stripe', 'src_payments') }}

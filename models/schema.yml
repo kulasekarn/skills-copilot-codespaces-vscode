@@ -29,7 +29,11 @@ models:
         tests:
           - unique
           - not_null
-      - name: status
+      - name: order_date
+        description: Date when the order was placed
+        tests:
+          - not_null
+      - name: order_status
         description: Order status, helps to keep track of an order progression through different stages
         tests:
           - accepted_values:
@@ -65,7 +69,6 @@ models:
         description: Amount paid in dollars
         tests:
           - not_null
-          - type: numeric
       - name: payment_status
         description: Payment success or failure
         tests:
