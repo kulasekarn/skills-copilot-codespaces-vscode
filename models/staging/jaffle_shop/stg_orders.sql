@@ -2,6 +2,6 @@
         ID as order_id,
         USER_ID as customer_id,
         ORDER_DATE as order_date,
-        STATUS as status
+        STATUS as order_status
 
-    from dbo.src_orders
+    from {{ source('jaffle_shop', 'src_orders') }}

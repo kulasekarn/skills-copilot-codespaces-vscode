@@ -29,7 +29,11 @@ models:
         tests:
           - unique
           - not_null
-      - name: status
+      - name: order_date
+        description: Date when the order was placed
+        tests:
+          - not_null
+      - name: order_status
         description: Order status, helps to keep track of an order progression through different stages
         tests:
           - accepted_values:
@@ -41,3 +45,32 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+
+  - name: stg_payments
+    description: The model cleans up the payment data imported from src_payments table
+    columns:
+      - name: payment_id
+        description: Primary key column
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Foreign key to stg_orders table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: payment_method
+        description: Way the payment was made
+        tests:
+          - not_null
+      - name: payment_amount
+        description: Amount paid in dollars
+        tests:
+          - not_null
+      - name: payment_status
+        description: Payment success or failure
+        tests:
+          - accepted_values:
+              values: ['success', 'fail']
