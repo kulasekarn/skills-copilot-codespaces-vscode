@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: jaffle_shop
+    description: "{{ doc('jaffle_shop_docs') }}"
     database: dbt_training_db
     schema: dbo
     freshness: 
@@ -15,7 +16,7 @@ sources:
 
     tables:
       - name: src_customers
-        description: source for customer data from the jaffle_shop crm application
+        description: source for raw customer data from the jaffle_shop crm application
         freshness: null
         
         columns:
@@ -30,7 +31,7 @@ sources:
             description: Last name of the customer
       
       - name: src_orders
-        description: source for order data from the jaffle_shop order management application
+        description: source for raw order data from the jaffle_shop order management application
         freshness: null
         
         columns:
