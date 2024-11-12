@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: stripe
+    description: "{{ doc('stripe_docs') }}"
     database: dbt_training_db
     schema: dbo
     freshness: 
