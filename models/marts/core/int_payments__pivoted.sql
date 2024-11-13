@@ -1,5 +1,9 @@
+{{
+    config(
+        materialized='table'
+    )
+}}
 {%- set payment_methods = ['bank_transfer', 'coupon', 'credit_card', 'gift_card'] -%}
-
 with payments as (
     
     select * from {{ ref('stg_payments') }}
@@ -7,7 +11,7 @@ with payments as (
 ),
 pymnt_methods as (
     
-    select distinct pymnt_method 
+    select distinct payment_method 
     from payments
     where payment_status = 'success'
 
@@ -26,4 +30,4 @@ pivoted_output as (
 )
 select * 
 from pivoted_output
-order by order_id
+
