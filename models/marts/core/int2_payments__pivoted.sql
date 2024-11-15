@@ -1,10 +1,11 @@
+-- Returns the list sorted alphabetically using a dbt_utils macro and passing the results to sql generation
 {{
     config(
         materialized='table'
     )
 }}
 
--- Returns the list sorted alphabetically using a dbt_utils macro and passing the results to sql generation
+
     {%- set pymt_methods = dbt_utils.get_column_values(
         table=ref('stg_payments'),
         where="payment_status = 'success'",

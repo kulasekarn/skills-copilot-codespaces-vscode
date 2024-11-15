@@ -1,10 +1,10 @@
+-- Returns the list sorted alphabetically using our own built in query and passing the results to sql generation
 {{
     config(
         materialized='table'
     )
 }}
 
--- Returns the list sorted alphabetically using our own built in query and passing the results to sql generation
     {%- set select_query -%}
         select distinct payment_method 
         from {{ ref('stg_payments') }}
