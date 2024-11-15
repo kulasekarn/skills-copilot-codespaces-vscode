@@ -3,20 +3,14 @@
         materialized='table'
     )
 }}
-    {%- set select_query -%}
-        select distinct payment_method 
-        from {{ ref('stg_payments') }}
-        where payment_status = 'success'
-        order by payment_method
-    {%- endset -%}
 
-    {%- if execute -%}
-        {%- set pymt_methods = run_query(select_query).columns[0].values() -%}   
-        {{ log('List of payment methods: ' ~ pymt_methods, info=True) }} 
-    {%- else -%}
-        {%- set pymt_methods = [] -%}   
-        {{ log('List of payment methods: ' ~ pymt_methods, info=True) }} 
-    {%- endif -%}
+-- Returns the list sorted alphabetically
+    {%- set pymt_methods = dbt_utils.get_column_values(
+        table=ref('stg_payments'),
+        where="payment_status = 'success'",
+        column='payment_method',
+        order_by='payment_method'
+    ) -%}
 
 with payments as (
     
