@@ -74,3 +74,28 @@ models:
         tests:
           - accepted_values:
               values: ['success', 'fail']
+
+  - name: int1_payments__pivoted
+    description: Intermediary table containing payments data pivoted by payment method
+    columns:
+      - name: order_id
+        description: Primary key column.  Payments are summarized by order, hence this column must be unique.
+        tests:
+          - unique
+          - not_null
+      - name: bank_transfer_amount
+        description: Dollar amount paid through bank transfers for the corresponding order
+        tests:
+          - not_null
+      - name: coupon_amount
+        description: Dollar amount paid through coupons for the corresponding order
+        tests:
+          - not_null
+      - name: credit_card_amount
+        description: Dollar amount paid through credit cards for the corresponding order
+        tests:
+          - not_null
+      - name: gift_card_amount
+        description: Dollar amount paid through gift cards for the corresponding order
+        tests:
+          - not_null

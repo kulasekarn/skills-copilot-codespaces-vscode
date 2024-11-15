@@ -4,6 +4,6 @@ Select
     , ORDERID AS order_id
     , PAYMENTMETHOD AS payment_method
     , STATUS AS payment_status
-    , AMOUNT/100 AS payment_amount
+    , {{ cents_to_dollars('AMOUNT', 4) }} AS payment_amount
 
 from {{ source('stripe', 'src_payments') }}
