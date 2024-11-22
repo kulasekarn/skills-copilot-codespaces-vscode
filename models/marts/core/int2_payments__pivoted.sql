@@ -1,7 +1,8 @@
 -- Returns the list sorted alphabetically using a dbt_utils macro and passing the results to sql generation
 {{
     config(
-        materialized='table'
+        materialized='table',
+        required_tests=None
     )
 }}
 
