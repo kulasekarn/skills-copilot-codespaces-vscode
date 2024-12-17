@@ -18,3 +18,15 @@ sources:
       - name: src_payments
         description: source for payment data from the jaffle_shop application
         freshness: null
+        columns:
+          - name: orderid
+            description: Unique identifier for the src_payments table
+            tests:
+              - unique:
+                  config:
+                    where: "status='success'"
+                    severity: error
+                    error_if: ">10"
+                    warn_if: ">5"
+                    
+              
