@@ -26,7 +26,7 @@ sources:
                   config:
                     where: "status='success'"
                     severity: error
-                    error_if: ">10"
+                    error_if: ">20"
                     warn_if: ">5"
                     
               

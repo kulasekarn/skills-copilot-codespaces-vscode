@@ -1,0 +1,173 @@
+version: 2
+
+semantic_models:
+  - name: fact_orders
+    description: |
+      Order fact table. This table’s grain is one row per order.
+    model: ref('fct_orders')
+    defaults:
+      agg_time_dimension: order_date
+    
+    entities:
+      - name: order_id
+        type: primary
+      - name: customer_id
+        type: foreign
+    
+    dimensions:
+      - name: order_date
+        description: This column contains the date of order and it serves as the time dimension column
+        type: time
+        type_params:
+          time_granularity: day
+      - name: order_status
+        description: Order status indicates if the order is completed, shipped or returned
+        type: categorical
+      - name: payment_status
+        description: Payment status indicates if the payment was successfully completed or if it failed
+        type: categorical
+    
+    measures:
+      - name: ms_total_order_amount
+        description: The total amount in the order transactions
+        agg: sum
+        expr: payment_amount
+      - name: ms_total_num_of_orders
+        description: The total number of orders
+        agg: count
+        expr: order_id
+      - name: ms_customers_with_orders
+        description: Number of customers that have placed orders (considering all statuses of orders)
+        agg: count_distinct
+        expr: customer_id
+      - name: ms_completed_order_amount
+        description: The total amounts in completed order transactions
+        agg: sum
+        expr: case when order_status = 'completed' then payment_amount else 0 end
+      - name: ms_completed_num_of_orders
+        description: The total number of completed orders
+        agg: sum
+        expr: case when order_status = 'completed' then 1 else 0 end
+      - name: ms_returned_order_amount
+        description: The total amounts in returned order transactions
+        agg: sum
+        expr: case when order_status = 'returned' then payment_amount else 0 end
+      - name: ms_returned_num_of_orders
+        description: The total number of returned orders
+        agg: sum
+        expr: case when order_status = 'returned' then 1 else 0 end
+      - name: ms_min_order_amount
+        description: The minimum order amount among all completed order transactions
+        agg: min
+        expr: case when order_status = 'completed' then payment_amount else 0 end
+      - name: ms_max_order_amount
+        description: The maximum order amount among all completed order transactions
+        agg: max
+        expr: case when order_status = 'completed' then payment_amount else 0 end
+
+metrics:
+  # Simple Metrics
+  - name: me_total_order_amount
+    label: total_order_amount
+    description: The total amount in the order transactions
+    type: simple
+    type_params:
+      measure: ms_total_order_amount
+  - name: me_total_num_of_orders
+    label: total_num_of_orders
+    description: The total number of orders
+    type: simple
+    type_params:
+      measure: ms_total_num_of_orders
+  - name: me_customers_with_orders
+    label: customers_with_orders
+    description: Number of customers that have placed orders (considering all statuses of orders)
+    type: simple
+    type_params:
+      measure: ms_customers_with_orders
+  - name: me_completed_order_amount
+    label: completed_order_amount
+    description: The total amounts in completed order transactions
+    type: simple
+    type_params:
+      measure: ms_completed_order_amount
+  - name: me_completed_num_of_orders
+    label: completed_num_of_orders
+    description: The total number of completed orders
+    type: simple
+    type_params:
+      measure: ms_completed_num_of_orders
+  - name: me_returned_order_amount
+    label: returned_order_amount
+    description: The total amounts in returned order transactions
+    type: simple
+    type_params:
+      measure: ms_returned_order_amount
+  - name: me_returned_num_of_orders
+    label: returned_num_of_orders
+    description: The total number of returned orders
+    type: simple
+    type_params:
+      measure: ms_returned_num_of_orders
+  
+  # Ratio metrics
+  - name: me_avg_order_amount
+    label: avg_order_amount
+    description: Average amount of all order transactions
+    type: ratio
+    type_params:
+      numerator:
+        name: me_total_order_amount
+      denominator: 
+        name: me_total_num_of_orders
+  
+  # Cumulative metrics
+  - name: me_total_order_amount_monthly
+    label: total_order_amount_monthly
+    description: The monthly total amount in the order transactions
+    type: cumulative
+    type_params:
+      measure: ms_total_order_amount
+      window: 1 month
+  - name: me_total_order_amount_weekly
+    label: total_order_amount_weekly
+    description: The weekly total amount in the order transactions
+    type: cumulative
+    type_params:
+      measure: ms_total_order_amount
+      window: 1 week
+  - name: me_total_order_amount_mtd
+    label: total_order_amount_mtd
+    description: The cumulative month to date total amount in the order transactions
+    type: cumulative
+    type_params:
+      measure: ms_total_order_amount
+      grain_to_date: month
+        
+  # Derived metrics
+  - name: me_pct_order_returned_v1
+    label: pct_order_returned_v1
+    description: Orders returned as a percent of orders completed
+    type: derived
+    type_params:
+      metrics:
+        - name: me_completed_num_of_orders
+          alias: completed_order_count
+        - name: me_returned_num_of_orders
+          alias: returned_order_count
+      expr: (returned_order_count/completed_order_count)*100
+  - name: me_pct_order_returned_v2
+    label: pct_order_returned_v2
+    description: Orders returned as a percent of orders completed
+    type: derived
+    type_params:
+      metrics:
+        - name: me_total_num_of_orders
+          alias: order_count_completed
+          filter: |
+            {{ Dimension('fact_orders__order_status') }} ='completed'
+        - name: me_total_num_of_orders
+          alias: order_count_returned
+          filter: |
+            {{ Dimension('fact_orders__order_status') }} ='returned'
+      expr: (order_count_returned/order_count_completed)*100
