@@ -1,0 +1,29 @@
+version: 2
+
+exposures:
+  - name: orders_data
+    label: orders_data_dashboard
+    type: dashboard
+    maturity: medium
+    url: https://jaffleshop.dashboard.com/executivereporting
+    description: Exposure of orders data
+    depends_on:
+      - ref(( 'fct_orders' ))
+      - metric(( 'me_total_order_amount' ))
+      - metric(( 'me_total_num_of_orders' ))
+      - metric(( 'me_customers_with_orders' ))
+    owner:
+      name: Mike McData
+      email: data@jaffleshop.com
+  
+  - name: customers_orders_data
+    label: customers_orders_data_notebook
+    type: notebook
+    maturity: high
+    url: https://jaffleshop.dashboard.com/executivereporting
+    description: Exposure of orders placed by customers
+    depends_on:
+      - ref(( 'fct_customer_orders' ))
+    owner:
+      name: Mary Analyst
+      email: mary@jaffleshop.com
