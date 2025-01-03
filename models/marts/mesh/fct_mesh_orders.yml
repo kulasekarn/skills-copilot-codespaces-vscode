@@ -1,0 +1,34 @@
+models:
+  - name: fct_mesh_orders
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: order_id
+        data_type: varchar(50)
+        constraints:
+          - type: not_null
+      - name: location_id
+        data_type: varchar(50)
+      - name: customer_id
+        data_type: varchar(50)
+      - name: order_total
+        data_type: numeric(17,6)
+      - name: tax_paid
+        data_type: numeric(17,6)
+      - name: ordered_at
+        data_type: date
+      - name: customer_name
+        data_type: varchar(100)
+      - name: location_name
+        data_type: varchar(25)
+      - name: tax_rate
+        data_type: decimal(10,5)
+      - name: location_opened_at
+        data_type: datetime
+      - name: ordered_month
+        data_type: int
+      - name: ordered_day
+        data_type: int
+      - name: ordered_year
+        data_type: int
