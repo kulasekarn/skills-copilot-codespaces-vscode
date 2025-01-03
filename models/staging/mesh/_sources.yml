@@ -6,14 +6,14 @@ sources:
     schema: dbo
     description: E-commerce data
     tables:
-      - name: customers
+      - name: raw_jaffle_shop_customers
         description: One record per person who has purchased one or more items
-      - name: orders
+      - name: raw_jaffle_shop_orders
         description: One record per order (consisting of one or more order items)
-      - name: items
+      - name: raw_jaffle_shop_items
         description: Items included in an order
-      - name: stores
-      - name: products
+      - name: raw_jaffle_shop_stores
+      - name: raw_jaffle_shop_products
         description: One record per SKU for items sold in stores
-      - name: supplies
+      - name: raw_jaffle_shop_supplies
         description: One record per supply per SKU of items sold in stores

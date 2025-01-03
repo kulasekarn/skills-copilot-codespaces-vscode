@@ -1,5 +1,5 @@
 with orders as (
-    select * from {{ ref('int_orders') }}
+    select * from {{ ref('int_mesh_orders') }}
 ),
 
 final as (
@@ -14,9 +14,9 @@ final as (
         location_name,
         tax_rate,
         location_opened_at,
-        date_part(month, ordered_at) as ordered_month,
-        date_part(day, ordered_at) as ordered_day, 
-        date_part(year, ordered_at) as ordered_year
+        datepart(month, ordered_at) as ordered_month,
+        datepart(day, ordered_at) as ordered_day, 
+        datepart(year, ordered_at) as ordered_year
     from orders
 )
 

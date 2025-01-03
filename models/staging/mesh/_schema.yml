@@ -1,35 +1,35 @@
 models:
-  - name: stg_customers
+  - name: stg_mesh_customers
     columns:
       - name: customer_id
         tests:
           - not_null
           - unique
-  - name: stg_locations
+  - name: stg_mesh_locations
     columns:
       - name: location_id
         tests:
           - not_null
           - unique
-  - name: stg_order_items
+  - name: stg_mesh_order_items
     columns:
       - name: order_item_id
         tests:
           - not_null
           - unique
-  - name: stg_orders
+  - name: stg_mesh_orders
     columns:
       - name: order_id
         tests:
           - not_null
           - unique
-  - name: stg_products
+  - name: stg_mesh_products
     columns:
       - name: product_id
         tests:
           - not_null
           - unique
-  - name: stg_supplies
+  - name: stg_mesh_supplies
     columns:
       - name: supply_uuid
         tests:

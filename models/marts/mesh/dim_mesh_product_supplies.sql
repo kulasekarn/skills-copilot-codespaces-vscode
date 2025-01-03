@@ -1,9 +1,9 @@
 with products as (
-    select * from {{ ref('stg_products') }}
+    select * from {{ ref('stg_mesh_products') }}
 ),
 
 supplies as (
-    select * from {{ ref('stg_supplies') }}
+    select * from {{ ref('stg_mesh_supplies') }}
 ),
 
 product_supplies_summary as (
@@ -11,7 +11,7 @@ product_supplies_summary as (
         product_id,
         sum(supply_cost) as supply_cost
     from supplies
-    group by 1
+    group by product_id
 ),
 
 final as (
