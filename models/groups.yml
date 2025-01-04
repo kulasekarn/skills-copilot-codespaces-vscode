@@ -1,0 +1,9 @@
+groups:
+  - name: product
+    owner:
+      name: product owner
+      email: product_owner@jaffleshop.com
+  - name: finance
+    owner:
+      name: finance owner
+      email: finance_owner@jaffleshop.com
