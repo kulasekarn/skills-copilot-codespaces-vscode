@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: dbt_training_db
+    schema: dbo
+    description: E-commerce data
+    tables:
+      - name: raw_jaffle_shop_customers
+        description: One record per person who has purchased one or more items
+      - name: raw_jaffle_shop_orders
+        description: One record per order (consisting of one or more order items)
+      - name: raw_jaffle_shop_items
+        description: Items included in an order
+      - name: raw_jaffle_shop_stores
+      - name: raw_jaffle_shop_products
+        description: One record per SKU for items sold in stores
+      - name: raw_jaffle_shop_supplies
+        description: One record per supply per SKU of items sold in stores

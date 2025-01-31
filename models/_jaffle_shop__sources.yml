@@ -16,6 +16,7 @@ sources:
 
     tables:
       - name: src_customers
+        identifier: jaffle_shop_raw_customers
         description: source for raw customer data from the jaffle_shop crm application
         freshness: null
         

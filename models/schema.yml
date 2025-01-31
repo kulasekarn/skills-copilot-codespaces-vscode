@@ -23,6 +23,8 @@ models:
 
   - name: stg_orders
     description: The model cleans up the order data imported from src_orders table
+    access: protected
+    group: product
     columns:
       - name: order_id
         description: Primary key column
@@ -48,6 +50,8 @@ models:
 
   - name: stg_payments
     description: The model cleans up the payment data imported from src_payments table
+    access: protected
+    group: finance
     columns:
       - name: payment_id
         description: Primary key column
